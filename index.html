@@ -1,35 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>my</title>
+    <title>||CAT||</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        body{
-            font-family: Arial, Helvetica, sans-serif;
-            margin: 20px;
-            background-color: blanchedalmond;
-        }
-        header,footer{
-            text-align: center;
-            padding: 10px;
-            background-color: lightcoral;
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
-<main class="container">
-    <div class="cat-card">
-        <div class="cat-image">
-            <img src="https://images.pet-friends.co.kr/v2/community/2025/10/31/7d505535-5520-4200-b919-09905c393663.jpeg?f=webp" alt="치즈냥이🧀">
-        </div>
-    </div>
-</main>
 <body>
-    <h1 id="main-title">||CAT||</h1>
-    <p>고양이 최강</p>
-    <script src="app.js"></script>
+    <div class="cursor"></div>
+    <div class="bg-img"></div>
+    <header>
+        <h1 id="main-title">||CAT||</h1>
+        <h3>고양이 최강</h3>
+    </header>
+    
+    <main>
+        <div class="move_image">
+            <div class="mimg">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzD9EXy4RYrouWPumOIGG-hi6NsWOFyrrolg&s" alt="냥이"> 
+            </div>
+        </div>
+
+        <div class="bottom-info">
+            <ul>
+                <li>pageX : <span class="pageX">0</span></li>
+                <li>pageY : <span class="pageY">0</span></li>
+                <li>mouseX : <span class="mouseX">0</span></li>
+                <li>mouseY : <span class="mouseY">0</span></li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        $(window).mousemove(function(e) {
+            // 1. 마우스 좌표 계산
+            let pageX = e.pageX;
+            let pageY = e.pageY;
+
+            // 2. 화면 중앙을 (0,0)으로 잡기 위한 계산
+            // 화면 중심에서 마우스가 얼마나 떨어졌나?
+            let standardX = $(window).width() / 2 - pageX;
+            let standardY = $(window).height() / 2 - pageY;
+
+            // 3. 텍스트 표시
+            $(".pageX").text(pageX);
+            $(".pageY").text(pageY);
+            $(".mouseX").text(Math.round(standardX));
+            $(".mouseY").text(Math.round(standardY));
+
+            // 4. 커서 따라오기
+            $(".cursor").css({ left: pageX, top: pageY });
+
+            // 5. 이미지 회전 (마우스 위치에 따라 각도 조절)
+            // 숫자를 나누는 값(20)이 작을수록 더 크게 회전합니다.
+            let angleX = standardY / 20; 
+            let angleY = -standardX / 20;
+
+            $(".move_image").css({
+                "transform": `translate(-50%, -50%) perspective(600px) rotateX(${angleX}deg) rotateY(${angleY}deg)`
+            });
+        });
+    </script>
 </body>
 </html>
